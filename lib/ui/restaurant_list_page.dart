@@ -1,18 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:your_food/common/styles.dart';
 import 'package:your_food/provider/restaurant_list_provider.dart';
+import 'package:your_food/ui/restaurant_login_page.dart';
 import 'package:your_food/ui/restaurant_search_page.dart';
 import 'package:your_food/ui/settings_page.dart';
 import 'package:your_food/utils/result_state.dart';
 import 'package:your_food/widgets/custom_restaurant_list.dart';
 import 'package:your_food/widgets/platform_widget.dart';
 
-class RestaurantListPage extends StatelessWidget {
+class RestaurantListPage extends StatefulWidget {
   const RestaurantListPage({Key? key}) : super(key: key);
 
   static const routeName = '/restaurant_list_page';
+
+  @override
+  State<RestaurantListPage> createState() => _RestaurantListPageState();
+}
+
+class _RestaurantListPageState extends State<RestaurantListPage> {
+  final _auth = FirebaseAuth.instance;
 
   Widget _buildList() {
     return Consumer<RestaurantListProvider>(
@@ -60,6 +69,7 @@ class RestaurantListPage extends StatelessWidget {
             'assets/your_food.png',
             width: 200,
             height: 50,
+            color: secondaryColor,
           ),
         ),
         automaticallyImplyLeading: false,
@@ -80,6 +90,7 @@ class RestaurantListPage extends StatelessWidget {
                 'assets/icon_your_food.png',
                 height: 50,
                 width: 50,
+                color: secondaryColor,
               ),
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
@@ -95,17 +106,31 @@ class RestaurantListPage extends StatelessWidget {
                   'assets/your_food.png',
                   width: 200,
                   height: 50,
+                  color: secondaryColor,
                 ),
               ),
-              const Divider(color: primaryColor),
+              const Divider(color: secondaryColor),
               ListTile(
                 title: const Text(
                   "Settings",
-                  style: TextStyle(color: primaryColor, fontSize: 15),
+                  style: TextStyle(color: secondaryColor, fontSize: 15),
                 ),
-                trailing: const Icon(Icons.settings, color: primaryColor),
+                trailing: const Icon(Icons.settings, color: secondaryColor),
                 onTap: () =>
                     Navigator.pushNamed(context, SettingsPage.routeName),
+              ),
+              ListTile(
+                title: const Text(
+                  "Logout",
+                  style: TextStyle(color: secondaryColor, fontSize: 15),
+                ),
+                trailing: const Icon(Icons.logout, color: secondaryColor),
+                onTap: () async {
+                  final navigator = Navigator.of(context);
+                  await _auth.signOut();
+
+                  navigator.pushReplacementNamed(RestaurantLoginPage.routeName);
+                },
               ),
             ],
           ),
@@ -128,7 +153,7 @@ class RestaurantListPage extends StatelessWidget {
         transitionBetweenRoutes: false,
         trailing: IconButton(
           icon: const Icon(Icons.settings),
-          color: primaryColor,
+          color: secondaryColor,
           onPressed: () {
             Navigator.pushNamed(context, SettingsPage.routeName);
           },

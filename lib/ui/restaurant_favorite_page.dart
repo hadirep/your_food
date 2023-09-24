@@ -59,6 +59,7 @@ class RestaurantFavoritePage extends StatelessWidget {
             'assets/your_food.png',
             width: 200,
             height: 50,
+            color: secondaryColor,
           ),
         ),
         automaticallyImplyLeading: false,

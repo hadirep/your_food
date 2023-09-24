@@ -38,9 +38,9 @@ final TextTheme myTextTheme = TextTheme(
 ThemeData lightTheme = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: myTextTheme,
-  appBarTheme: const AppBarTheme(elevation: 0, color: secondaryColor),
-  drawerTheme: const DrawerThemeData(backgroundColor: secondaryColor),
-  inputDecorationTheme: const InputDecorationTheme(fillColor: secondaryColor),
+  appBarTheme: const AppBarTheme(elevation: 0, color: primaryColor),
+  drawerTheme: const DrawerThemeData(backgroundColor: primaryColor),
+  inputDecorationTheme: const InputDecorationTheme(fillColor: primaryColor),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: secondaryColor,

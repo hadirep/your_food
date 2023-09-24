@@ -83,12 +83,13 @@ class RestaurantSearchPage extends StatelessWidget {
             'assets/your_food.png',
             width: 200,
             height: 50,
+            color: secondaryColor,
           ),
         ),
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          color: primaryColor,
+          color: secondaryColor,
           onPressed: () {
             Navigator.pop(context);
           },

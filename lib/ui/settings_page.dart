@@ -23,7 +23,15 @@ class SettingsPage extends StatelessWidget {
             'assets/your_food.png',
             width: 200,
             height: 50,
+            color: secondaryColor,
           ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: secondaryColor,
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: _buildList(context),

@@ -8,6 +8,7 @@ import 'package:your_food/common/navigation.dart';
 import 'package:your_food/data/db/database_helper.dart';
 import 'package:your_food/data/model/restaurant_list_search_model.dart';
 import 'package:your_food/data/preferences/preferences_helper.dart';
+import 'package:your_food/firebase_options.dart';
 import 'package:your_food/provider/database_provider.dart';
 import 'package:your_food/provider/preferences_provider.dart';
 import 'package:your_food/provider/restaurant_detail_provider.dart';
@@ -16,18 +17,24 @@ import 'package:your_food/provider/restaurant_search_provider.dart';
 import 'package:your_food/provider/scheduling_provider.dart';
 import 'package:your_food/ui/home_page.dart';
 import 'package:your_food/ui/restaurant_detail_page.dart';
+import 'package:your_food/ui/restaurant_login_page.dart';
+import 'package:your_food/ui/restaurant_register_page.dart';
 import 'package:your_food/ui/restaurant_search_page.dart';
 import 'package:your_food/ui/settings_page.dart';
 import 'package:your_food/data/api/api_service.dart';
 import 'package:your_food/utils/background_service.dart';
 import 'package:your_food/utils/notification_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   final NotificationHelper notificationHelper = NotificationHelper();
   final BackgroundService service = BackgroundService();
   service.initializeIsolate();
@@ -74,8 +81,10 @@ class MyApp extends StatelessWidget {
               theme: provider.themeData,
               navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
-              initialRoute: HomePage.routeName,
+              initialRoute: RestaurantLoginPage.routeName,
               routes: {
+                RestaurantLoginPage.routeName: (context) => const RestaurantLoginPage(),
+                RestaurantRegisterPage.routeName: (context) => const RestaurantRegisterPage(),
                 HomePage.routeName: (context) => const HomePage(),
                 RestaurantDetailPage.routeName: (context) =>
                     RestaurantDetailPage(

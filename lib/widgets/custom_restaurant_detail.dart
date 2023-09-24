@@ -20,7 +20,7 @@ class CustomRestaurantDetail extends StatelessWidget {
                 pinned: true,
                 expandedHeight: 200,
                 leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: primaryColor),
+                  icon: const Icon(Icons.arrow_back, color: secondaryColor),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -37,7 +37,7 @@ class CustomRestaurantDetail extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       detailModel.name!,
-                      style: myTextTheme.headlineSmall,
+                      style: const TextStyle(color: secondaryColor)
                     ),
                   ),
                   titlePadding: const EdgeInsets.only(left: 16, bottom: 16),

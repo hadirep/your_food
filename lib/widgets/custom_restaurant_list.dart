@@ -32,15 +32,12 @@ class CustomRestaurantList extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              title: Text(
-                listSearchModel.name,
-              ),
+              title: Text(listSearchModel.name),
               subtitle: Column(
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.location_on_outlined,
-                          color: iconColor, size: 17),
+                      const Icon(Icons.location_on_outlined, color: iconColor, size: 17),
                       Text('${listSearchModel.city}, Indonesia'),
                     ],
                   ),
@@ -56,13 +53,11 @@ class CustomRestaurantList extends StatelessWidget {
                   ? IconButton(
                       icon: const Icon(Icons.favorite, color: secondaryColor),
                       color: secondaryColor,
-                      onPressed: () =>
-                          provider.removeFavorite(listSearchModel.id),
+                      onPressed: () => provider.removeFavorite(listSearchModel.id),
                     )
                   : IconButton(
                       onPressed: () => provider.addFavorite(listSearchModel),
-                      icon: const Icon(Icons.favorite_border,
-                          color: secondaryColor),
+                      icon: const Icon(Icons.favorite_border, color: secondaryColor),
                     ),
               onTap: () {
                 Navigator.pushNamed(
