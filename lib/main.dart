@@ -16,6 +16,7 @@ import 'package:your_food/provider/restaurant_list_provider.dart';
 import 'package:your_food/provider/restaurant_search_provider.dart';
 import 'package:your_food/provider/scheduling_provider.dart';
 import 'package:your_food/ui/home_page.dart';
+import 'package:your_food/ui/reset_password_page.dart';
 import 'package:your_food/ui/restaurant_detail_page.dart';
 import 'package:your_food/ui/restaurant_login_page.dart';
 import 'package:your_food/ui/restaurant_register_page.dart';
@@ -85,6 +86,7 @@ class MyApp extends StatelessWidget {
               routes: {
                 RestaurantLoginPage.routeName: (context) => const RestaurantLoginPage(),
                 RestaurantRegisterPage.routeName: (context) => const RestaurantRegisterPage(),
+                ResetPasswordPage.routeName: (context) => const ResetPasswordPage(),
                 HomePage.routeName: (context) => const HomePage(),
                 RestaurantDetailPage.routeName: (context) =>
                     RestaurantDetailPage(

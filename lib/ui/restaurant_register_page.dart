@@ -65,7 +65,7 @@ class _RestaurantRegisterPageState extends State<RestaurantRegisterPage> {
                 hintText: 'Password',
               ),
             ),
-            const SizedBox(height: 24.0),
+            const SizedBox(height: 12),
             _registrationError != null
                 ? Text(
               _registrationError!,
@@ -94,7 +94,7 @@ class _RestaurantRegisterPageState extends State<RestaurantRegisterPage> {
 
                   // Validate email format
                   if (!isValidEmail(email)) {
-                    _showErrorSnackbar('Format alamat email tidak valid');
+                    _showErrorSnackbar('The email address format is not valid');
                     setState(() {
                       _isLoading = false;
                     });
@@ -108,9 +108,9 @@ class _RestaurantRegisterPageState extends State<RestaurantRegisterPage> {
                   navigator.pop();
                 } catch (e) {
                   if (e is FirebaseAuthException && e.code == 'email-already-in-use') {
-                    _showErrorSnackbar('Akun anda sudah pernah dibuat');
+                    _showErrorSnackbar('Your account has already been created');
                   } else {
-                    _showErrorSnackbar('Terjadi kesalahan saat membuat akun');
+                    _showErrorSnackbar('An error occurred while creating the account');
                   }
                 } finally {
                   setState(() {
