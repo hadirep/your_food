@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:your_food/common/styles.dart';
 import 'package:your_food/provider/restaurant_list_provider.dart';
-import 'package:your_food/ui/restaurant_login_page.dart';
+import 'package:your_food/ui/login_page.dart';
 import 'package:your_food/ui/restaurant_search_page.dart';
 import 'package:your_food/ui/settings_page.dart';
 import 'package:your_food/utils/result_state.dart';
@@ -129,7 +129,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                   final navigator = Navigator.of(context);
                   await _auth.signOut();
 
-                  navigator.pushReplacementNamed(RestaurantLoginPage.routeName);
+                  navigator.pushReplacementNamed(LoginPage.routeName);
                 },
               ),
             ],

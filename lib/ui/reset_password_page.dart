@@ -58,9 +58,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 });
                 try {
                   final email = _emailController.text;
-                  await _auth.sendPasswordResetEmail(email: email);
-
-                  _showSnackbar('Password reset email has been sent. Please check your inbox');
+                  
+                  final account = await _auth.fetchSignInMethodsForEmail(email);
+                  if (account.isNotEmpty) {
+                    await _auth.sendPasswordResetEmail(email: email);
+                    _showSnackbar('Password reset email has been sent. Please check your inbox');
+                  } else {
+                    _showSnackbar("I'm sorry, your email is not yet registered in our database");
+                  }
                 } catch (e) {
                   _showSnackbar('An error occurred while sending the password reset email: $e');
                 } finally {

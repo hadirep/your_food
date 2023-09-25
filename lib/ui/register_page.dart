@@ -1,26 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:your_food/common/styles.dart';
-import 'package:your_food/ui/home_page.dart';
-import 'package:your_food/ui/reset_password_page.dart';
-import 'package:your_food/ui/restaurant_register_page.dart';
 
-class RestaurantLoginPage extends StatefulWidget {
-  static const String routeName = 'restaurant_login_page';
+class RegisterPage extends StatefulWidget {
+  static const String routeName = 'restaurant_register_page';
 
-  const RestaurantLoginPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<RestaurantLoginPage> createState() => _RestaurantLoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RestaurantLoginPageState extends State<RestaurantLoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _auth = FirebaseAuth.instance;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   bool _obscureText = true;
   bool _isLoading = false;
+  String? _registrationError; // Error message for registration
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +34,11 @@ class _RestaurantLoginPageState extends State<RestaurantLoginPage> {
                 : Container(),
             Image.asset('assets/your_food.png', color: secondaryColor),
             const SizedBox(height: 24.0),
+            Text(
+              'Create your account',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8.0),
             TextField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
@@ -51,7 +54,8 @@ class _RestaurantLoginPageState extends State<RestaurantLoginPage> {
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
-                  icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off),
                   onPressed: () {
                     setState(() {
                       _obscureText = !_obscureText;
@@ -62,6 +66,15 @@ class _RestaurantLoginPageState extends State<RestaurantLoginPage> {
               ),
             ),
             const SizedBox(height: 12),
+            _registrationError != null
+                ? Text(
+              _registrationError!,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 16.0,
+              ),
+            )
+                : Container(),
             MaterialButton(
               color: secondaryColor,
               textTheme: ButtonTextTheme.primary,
@@ -72,23 +85,32 @@ class _RestaurantLoginPageState extends State<RestaurantLoginPage> {
               onPressed: () async {
                 setState(() {
                   _isLoading = true;
+                  _registrationError = null; // Reset the registration error
                 });
                 try {
                   final navigator = Navigator.of(context);
                   final email = _emailController.text;
                   final password = _passwordController.text;
 
-                  await _auth.signInWithEmailAndPassword(
+                  // Validate email format
+                  if (!isValidEmail(email)) {
+                    _showErrorSnackbar('The email address format is not valid');
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    return; // Don't proceed with registration
+                  }
+
+                  await _auth.createUserWithEmailAndPassword(
                     email: email,
                     password: password,
                   );
-
-                  navigator.pushReplacementNamed(HomePage.routeName);
+                  navigator.pop();
                 } catch (e) {
-                  if (e is FirebaseAuthException && e.code == 'wrong-password') {
-                    _showErrorSnackbar('The password you entered is incorrect');
+                  if (e is FirebaseAuthException && e.code == 'email-already-in-use') {
+                    _showErrorSnackbar('Your account has already been created');
                   } else {
-                    _showErrorSnackbar('The email or password you entered is incorrect');
+                    _showErrorSnackbar('An error occurred while creating the account');
                   }
                 } finally {
                   setState(() {
@@ -96,26 +118,24 @@ class _RestaurantLoginPageState extends State<RestaurantLoginPage> {
                   });
                 }
               },
-              child: const Text('Login'),
+              child: const Text('Register'),
             ),
             TextButton(
               child: const Text(
-                'Does not have an account yet? Register here',
+                'Already have an account? Login',
                 style: TextStyle(color: secondaryColor),
               ),
-              onPressed: () => Navigator.pushNamed(context, RestaurantRegisterPage.routeName),
-            ),
-            TextButton(
-              child: const Text(
-                'Forgot your password? Click here',
-                style: TextStyle(color: secondaryColor),
-              ),
-              onPressed: () => Navigator.pushNamed(context, ResetPasswordPage.routeName),
+              onPressed: () => Navigator.pop(context),
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+    return emailRegex.hasMatch(email);
   }
 
   void _showErrorSnackbar(String errorMessage) {
