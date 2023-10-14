@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+//image restaurant list
+dynamic imageMedium = 'https://restaurant-api.dicoding.dev/images/medium/';
+dynamic imageLarge = 'https://restaurant-api.dicoding.dev/images/large/';
+
+// colors
 const Color primaryColor = Colors.white;
 const Color secondaryColor = Colors.red;
 const Color darkPrimaryColor = Color(0xFF303030);
@@ -8,6 +13,7 @@ const Color darkSecondaryColor = Color(0xFF424242);
 const Color dividerColor = Colors.grey;
 const Color iconColor = Colors.blue;
 
+// text style
 final TextTheme myTextTheme = TextTheme(
   displayLarge: GoogleFonts.poppins(
       fontSize: 79, fontWeight: FontWeight.w300, letterSpacing: -1.5),
